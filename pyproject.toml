@@ -2,12 +2,8 @@
 name = "atcoder-rye-ruff"
 version = "0.1.0"
 description = "Add your description here"
-authors = [
-    { name = "radiol", email = "radiol@github.com" }
-]
-dependencies = [
-    "numpy>=1.24.4",
-]
+authors = [{ name = "radiol", email = "radiol@github.com" }]
+dependencies = ["numpy>=1.24.4"]
 readme = "README.md"
 requires-python = ">= 3.8"
 
@@ -26,6 +22,24 @@ dev-dependencies = [
     "atcoder-tools>=2.13.0",
     "pytest>=7.4.2",
 ]
+
+[tool.ruff]
+select = ["ALL"]
+ignore = [
+    "A001",
+    "D100",
+    "D103",
+    "D211",
+    "D213",
+    "N806",
+    "T201",
+    "ANN",
+    "INP001",
+    "PLR1722",
+]
+fixable = ["ALL"]
+unfixable = ["F841"]
+line-length = 88
 
 [tool.hatch.metadata]
 allow-direct-references = true
