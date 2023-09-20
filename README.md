@@ -1,3 +1,3 @@
 # atcoder-rye-ruff
 
-Describe your project here.
+AtCoder environment by Rye + Ruff
