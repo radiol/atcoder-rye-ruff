@@ -1,0 +1,31 @@
+[project]
+name = "atcoder-rye-ruff"
+version = "0.1.0"
+description = "Add your description here"
+authors = [
+    { name = "radiol", email = "radiol@github.com" }
+]
+dependencies = [
+    "numpy>=1.24.4",
+]
+readme = "README.md"
+requires-python = ">= 3.8"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.rye]
+managed = true
+dev-dependencies = [
+    "black>=23.9.1",
+    "ruff>=0.0.290",
+    "mypy>=1.5.1",
+    "online-judge-tools>=11.5.1",
+    "ipython>=8.12.2",
+    "atcoder-tools>=2.13.0",
+    "pytest>=7.4.2",
+]
+
+[tool.hatch.metadata]
+allow-direct-references = true
