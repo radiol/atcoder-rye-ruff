@@ -3,7 +3,13 @@ name = "atcoder-rye-ruff"
 version = "0.1.0"
 description = "Add your description here"
 authors = [{ name = "radiol", email = "radiol@github.com" }]
-dependencies = ["numpy>=1.24.4"]
+dependencies = [
+    "numpy>=1.24.4",
+    "scipy>=1.10.1",
+    "sympy>=1.12",
+    "more-itertools>=10.1.0",
+    "ac-library-python @ git+https://github.com/not522/ac-library-python",
+]
 readme = "README.md"
 requires-python = ">= 3.8"
 
