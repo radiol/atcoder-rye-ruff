@@ -1,4 +1,5 @@
 import sys
+from collections import deque
 
 sys.setrecursionlimit(10**6)
 
@@ -12,20 +13,32 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
     N, M = map(int, input().split())
-    A = list(map(int, input().split()))
 
-    # M行dataの読み込み
+    edge = [[] for _ in range(N + 1)]
     for _ in range(M):
-        u, v = map(int, input().split())
+        a, b, x, y = map(int, input().split())
+        edge[a].append((b, x, y))
+        edge[b].append((a, -x, -y))
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    visited = set()
+    ans = [(0, 0) for _ in range(N + 1)]
+    que = deque([(1, 0, 0)])
+    while que:
+        crr, x, y = que.popleft()
+        if crr in visited:
+            continue
+        visited.add(crr)
+        for nxt, dx, dy in edge[crr]:
+            if nxt in visited:
+                continue
+            ans[nxt] = (x + dx, y + dy)
+            que.append((nxt, x + dx, y + dy))
+    for i in range(1, N + 1):
+        if i not in visited:
+            print("undecidable")
+            continue
+        print(*ans[i])
 
 
 if __name__ == "__main__":
