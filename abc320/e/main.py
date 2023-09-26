@@ -1,4 +1,5 @@
 import sys
+from heapq import heapify, heappop, heappush
 
 sys.setrecursionlimit(10**6)
 
@@ -12,20 +13,30 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
     N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+
+    ans = [0] * (N + 1)
+    members = list(range(1, N + 1))
+    heapify(members)
+    events = []
 
     # M行dataの読み込み
     for _ in range(M):
-        u, v = map(int, input().split())
+        t, w, s = map(int, input().split())
+        heappush(events, (t, 1, w, s))
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    while events:
+        event = heappop(events)
+        if event[1] == 0:
+            _, _, n = event
+            heappush(members, n)
+            continue
+        if event[1] == 1 and members:
+            t, _, w, s = event
+            n = heappop(members)
+            ans[n] += w
+            heappush(events, (t + s, 0, n))
+    print(*ans[1:], sep="\n")
 
 
 if __name__ == "__main__":
