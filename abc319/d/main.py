@@ -1,5 +1,4 @@
 import sys
-from bisect import bisect_right
 
 sys.setrecursionlimit(10**6)
 
@@ -16,17 +15,17 @@ def main():
     N, M = map(int, input().split())
     A = list(map(int, input().split()))
 
-    cumA = [0] * (N + 1)
-    for i, a in enumerate(A):
-        cumA[i + 1] = cumA[i] + (a + 1)
+    A = [a + 1 for a in A]
 
     def row_cnt(column_num) -> int:
-        x = 0
-        cnt = 0
-        while x < cumA[-1]:
-            x = cumA[bisect_right(cumA, x + column_num) - 1]
-            cnt += 1
-        return cnt
+        rows = 1
+        length = 0
+        for a in A:
+            length += a
+            if length > column_num:
+                length = a
+                rows += 1
+        return rows
 
     def is_ok(x) -> bool:
         return row_cnt(x) <= M
@@ -40,7 +39,7 @@ def main():
                 ng = mid
         return ok
 
-    print(meguru_bisect(max(A), cumA[-1]) - 1)
+    print(meguru_bisect(max(A) - 1, sum(A)) - 1)
 
 
 if __name__ == "__main__":
