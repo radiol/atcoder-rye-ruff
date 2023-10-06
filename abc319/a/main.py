@@ -12,20 +12,21 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    S = input().strip()
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
-
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    players = {
+        "tourist": 3858,
+        "ksun48": 3679,
+        "Benq": 3658,
+        "Um_nik": 3648,
+        "apiad": 3638,
+        "Stonefeang": 3630,
+        "ecnerwala": 3613,
+        "mnbvmar": 3555,
+        "newbiedmy": 3516,
+        "semiexp": 3481,
+    }
+    print(players[S])
 
 
 if __name__ == "__main__":
