@@ -1,4 +1,5 @@
 import sys
+from itertools import product
 
 sys.setrecursionlimit(10**6)
 
@@ -12,20 +13,21 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    N, K, P = map(int, input().split())
+    C = [list(map(int, input().split())) for _ in range(N)]
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    dp = {tuple(p): float("inf") for p in product(range(P + 1), repeat=K)}
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    dp[tuple([0 for _ in range(K)])] = 0
+
+    for c in C:
+        ep = dp.copy()
+        cost, A = c[0], c[1:]
+        for k, crr_cost in dp.items():
+            nxt = tuple([min(P, k[i] + A[i]) for i in range(K)])
+            ep[nxt] = min(ep[nxt], crr_cost + cost)
+        dp = ep
+    print(dp[tuple([P] * K)] if dp[tuple([P] * K)] != float("inf") else -1)
 
 
 if __name__ == "__main__":
