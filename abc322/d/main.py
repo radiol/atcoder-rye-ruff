@@ -1,31 +1,16 @@
-import sys
-
-sys.setrecursionlimit(10**6)
-
-input = sys.stdin.readline
-
-
-def debug(*args, sep=None):
-    if sep is None and hasattr(args[0], "__iter__"):
-        sep = "\n"
-    print("Debug:", *args, file=sys.stderr, sep=sep)
-
-
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    minos = []
+    for _ in range(3):
+        minos.append([list(input()) for _ in range(4)])
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    def rotate(mino: list[list]) -> list[list]:
+        return [[mino[j][i] for j in range(3, -1, -1)] for i in range(4)]
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    m = minos[0]
+    for _ in range(5):
+        print(*m, sep="\n")
+        print()
+        m = rotate(m)
 
 
 if __name__ == "__main__":

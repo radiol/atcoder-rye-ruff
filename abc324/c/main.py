@@ -12,20 +12,32 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    N, T = input().split()
+    N = int(N)
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    def check(S: str) -> bool:
+        if abs(len(T) - len(S)) > 1:
+            return False
+        match_cnt = 0
+        for t, s in zip(T, S):
+            if t != s:
+                break
+            match_cnt += 1
+        for i in range(1, min(len(T), len(S)) + 1):
+            if T[-i] != S[-i]:
+                break
+            match_cnt += 1
+        return match_cnt >= min(len(T), len(S)) or (
+            len(T) == len(S) and match_cnt >= len(T) - 1
+        )
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    ans = []
+    for i in range(1, N + 1):
+        S = input().strip()
+        if check(S):
+            ans.append(i)
+    print(len(ans))
+    print(*ans, sep=" ")
 
 
 if __name__ == "__main__":

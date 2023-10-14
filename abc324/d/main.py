@@ -1,4 +1,5 @@
 import sys
+from collections import Counter
 
 sys.setrecursionlimit(10**6)
 
@@ -13,19 +14,29 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    S = input().strip()
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    patterns = []
+    for x in range(int(10 ** (N / 2)) + 1):
+        num_cnt = [0] * 10
+        for n, cnt in Counter(str(x**2)).items():
+            num_cnt[int(n)] = cnt
+        patterns.append(num_cnt)
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    S_cnt = [0] * 10
+    for n, cnt in Counter(S).items():
+        S_cnt[int(n)] = cnt
+
+    ans = 0
+    for p in patterns:
+        if S_cnt[0] < p[0]:
+            continue
+        for i in range(1, 10):
+            if S_cnt[i] != p[i]:
+                break
+        else:
+            ans += 1
+    print(ans)
 
 
 if __name__ == "__main__":
