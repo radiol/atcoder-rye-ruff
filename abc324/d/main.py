@@ -1,5 +1,5 @@
 import sys
-from collections import Counter
+from collections import defaultdict
 
 sys.setrecursionlimit(10**6)
 
@@ -16,27 +16,11 @@ def main():
     N = int(input())
     S = input().strip()
 
-    patterns = []
+    patterns = defaultdict(int)
     for x in range(int(10 ** (N / 2)) + 1):
-        num_cnt = [0] * 10
-        for n, cnt in Counter(str(x**2)).items():
-            num_cnt[int(n)] = cnt
-        patterns.append(num_cnt)
+        patterns["".join(sorted(str(x**2).zfill(N)))] += 1
 
-    S_cnt = [0] * 10
-    for n, cnt in Counter(S).items():
-        S_cnt[int(n)] = cnt
-
-    ans = 0
-    for p in patterns:
-        if S_cnt[0] < p[0]:
-            continue
-        for i in range(1, 10):
-            if S_cnt[i] != p[i]:
-                break
-        else:
-            ans += 1
-    print(ans)
+    print(patterns["".join(sorted(S.zfill(N)))])
 
 
 if __name__ == "__main__":
