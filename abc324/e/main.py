@@ -38,16 +38,14 @@ def main():
                 idx += 1
             if idx > len(T):
                 break
-        # debug(forward_match_cnt)
-        # debug(backward_match_cnt)
 
-        last_backward = 0
-        ans = 0
-        for f, b in zip(forward_match_cnt, reversed(backward_match_cnt)):
-            cnt = f * (b - last_backward)
-            if cnt != 0:
-                ans += cnt
-                last_backward = b
+    last_backward = 0
+    ans = 0
+    for f, b in zip(forward_match_cnt, reversed(backward_match_cnt)):
+        cnt = f * (b - last_backward)
+        if cnt != 0:
+            ans += cnt
+            last_backward = b
     print(ans)
 
 
