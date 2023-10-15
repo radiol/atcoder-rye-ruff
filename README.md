@@ -18,7 +18,7 @@ rye sync
 https://github.com/Tatamo/atcoder-cli
 
 ```bash
-npm install atcoder-cli
+npm install -g atcoder-cli
 ```
 
 ## Login AtCoder-CLI
