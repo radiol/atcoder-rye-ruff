@@ -1,4 +1,5 @@
 import sys
+from bisect import bisect_left
 
 sys.setrecursionlimit(10**6)
 
@@ -12,20 +13,31 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
     N, M = map(int, input().split())
     A = list(map(int, input().split()))
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    points = [0] * (N + 1)
+    cum_add_points = [[0] * (M + 1) for _ in range(N + 1)]
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    for i in range(1, N + 1):
+        S = input().strip()
+        not_solved_point = [0] * M
+        for j, c in enumerate(S):
+            if c == "o":
+                points[i] += A[j]
+            else:
+                not_solved_point[j] = A[j]
+
+        points[i] += i
+        not_solved_point.sort(reverse=True)
+
+        for j in range(M):
+            cum_add_points[i][j + 1] = cum_add_points[i][j] + not_solved_point[j]
+
+    top_point = max(points)
+
+    for i in range(1, N + 1):
+        print(bisect_left(cum_add_points[i], top_point - points[i]))
 
 
 if __name__ == "__main__":
