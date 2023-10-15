@@ -40,7 +40,13 @@ oj login https://atcoder.jp/
 Copy atcoder-cli-templates to acc config-dir.
 Check acc config-dir
 ```bash
-acc config-dir
+cp -r atcoder-cli-templates/py `acc config-dir`
+```
+### Edit acc-config
+```bash
+cd `acc config-dir`
+nvim config.json
+-> default-template:"py"
 ```
 
 # Usage
