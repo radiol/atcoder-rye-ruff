@@ -1,8 +1,7 @@
+from __future__ import annotations
+
 import sys
-
-sys.setrecursionlimit(10**6)
-
-input = sys.stdin.readline
+from itertools import permutations
 
 
 def debug(*args, sep=None):
@@ -12,20 +11,40 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    C = []
+    for _ in range(3):
+        C.extend(list(map(int, input().strip().split())))
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    def check(p: tuple[int, ...]) -> bool:
+        number_counter_dict = create_patterns_dict()
+        for n in range(9):
+            idx = p.index(n)
+            for key, stack in number_counter_dict.items():
+                if idx not in key:
+                    continue
+                stack.append(C[idx])
+                if len(stack) == 2 and stack[0] == stack[1]:
+                    return False
+        return True
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    cnt = 0
+    for p in permutations(range(9)):
+        if check(p):
+            cnt += 1
+    print(cnt / (1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9))
+
+
+def create_patterns_dict() -> dict:
+    return {
+        (0, 1, 2): [],
+        (3, 4, 5): [],
+        (6, 7, 8): [],
+        (0, 3, 6): [],
+        (1, 4, 7): [],
+        (2, 5, 8): [],
+        (0, 4, 8): [],
+        (2, 4, 6): [],
+    }
 
 
 if __name__ == "__main__":
