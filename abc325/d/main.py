@@ -1,4 +1,5 @@
 import sys
+from heapq import heappop, heappush
 
 sys.setrecursionlimit(10**6)
 
@@ -13,19 +14,32 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    entry_exit_times = []
+    for _ in range(N):
+        t, d = map(int, input().split())
+        entry_exit_times.append((t, t + d))
+    entry_exit_times.sort(reverse=True)
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    exit_times = []
+    now = 0
+    ans = 0
+    while entry_exit_times:
+        s, e = entry_exit_times.pop()
+        now = max(now, s)
+        heappush(exit_times, e)
+        while entry_exit_times and entry_exit_times[-1][0] <= now:
+            _, e = entry_exit_times.pop()
+            heappush(exit_times, e)
+        while exit_times:
+            e = heappop(exit_times)
+            if e >= now:
+                ans += 1
+                now += 1
+                while entry_exit_times and entry_exit_times[-1][0] <= now:
+                    _, e = entry_exit_times.pop()
+                    heappush(exit_times, e)
+    print(ans)
 
 
 if __name__ == "__main__":
