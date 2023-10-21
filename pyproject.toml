@@ -35,10 +35,8 @@ dev-dependencies = [
 select = ["ALL"]
 ignore = [
     "A001",
-    "D100",
-    "D103",
-    "D211",
-    "D213",
+    "D",       # docstring系は全て無視
+    "E741",    # lを変数として使えるように
     "N806",
     "T201",
     "ANN",
