@@ -28,17 +28,14 @@ def main():
         s, e = entry_exit_times.pop()
         now = max(now, s)
         heappush(exit_times, e)
-        while entry_exit_times and entry_exit_times[-1][0] <= now:
-            _, e = entry_exit_times.pop()
-            heappush(exit_times, e)
         while exit_times:
+            while entry_exit_times and entry_exit_times[-1][0] <= now:
+                _, e = entry_exit_times.pop()
+                heappush(exit_times, e)
             e = heappop(exit_times)
             if e >= now:
                 ans += 1
                 now += 1
-                while entry_exit_times and entry_exit_times[-1][0] <= now:
-                    _, e = entry_exit_times.pop()
-                    heappush(exit_times, e)
     print(ans)
 
 
