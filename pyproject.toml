@@ -44,6 +44,7 @@ ignore = [
     "ANN",
     "INP001",
     "PLR1722",
+    "PLR2004", # 定数の使用を推奨
 ]
 fixable = ["ALL"]
 unfixable = ["F841"]
