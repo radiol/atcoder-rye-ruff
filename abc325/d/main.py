@@ -1,4 +1,5 @@
 import sys
+from collections import defaultdict
 from heapq import heappop, heappush
 
 sys.setrecursionlimit(10**6)
@@ -15,27 +16,26 @@ def debug(*args, sep=None):
 def main():
     N = int(input())
 
-    entry_exit_times = []
+    entry_times = set()
+    exit_times_dict = defaultdict(list)
     for _ in range(N):
         t, d = map(int, input().split())
-        entry_exit_times.append((t, t + d))
-    entry_exit_times.sort(reverse=True)
+        entry_times.add(t)
+        exit_times_dict[t].append(t + d)
+    entry_times = sorted(entry_times)
+    entry_times.append(float("inf"))
 
-    exit_times = []
-    now = 0
+    hq = []
     ans = 0
-    while entry_exit_times:
-        s, e = entry_exit_times.pop()
-        now = max(now, s)
-        heappush(exit_times, e)
-        while exit_times:
-            while entry_exit_times and entry_exit_times[-1][0] <= now:
-                _, e = entry_exit_times.pop()
-                heappush(exit_times, e)
-            e = heappop(exit_times)
-            if e >= now:
+    for s, nxt in zip(entry_times, entry_times[1:]):
+        crr = s
+        for e in exit_times_dict[crr]:
+            heappush(hq, e)
+        while hq and crr < nxt:
+            e = heappop(hq)
+            if e >= crr:
+                crr += 1
                 ans += 1
-                now += 1
     print(ans)
 
 
