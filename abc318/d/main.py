@@ -1,4 +1,5 @@
 import sys
+from itertools import combinations
 
 sys.setrecursionlimit(10**6)
 
@@ -13,19 +14,20 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    D = [[0] * N for _ in range(N)]
+    for i in range(N - 1):
+        for j, d in enumerate(map(int, input().split()), start=i + 1):
+            D[i][j] = d
+            D[j][i] = d
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
-
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    dp = [0] * (1 << N)
+    for S in range(1 << N):
+        for i, j in combinations(range(N), 2):
+            if (S >> i) & 1 == 1 or (S >> j) & 1 == 1:
+                continue
+            new_S = S + (1 << i) + (1 << j)
+            dp[new_S] = max(dp[new_S], dp[S] + D[i][j])
+    print(max(dp))
 
 
 if __name__ == "__main__":

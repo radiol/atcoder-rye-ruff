@@ -12,20 +12,29 @@ def debug(*args, sep=None):
 
 
 def main():
+    MAX_SIZE = 102
     N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    grid = [[0] * MAX_SIZE for _ in range(MAX_SIZE)]
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    for _ in range(N):
+        A, B, C, D = (int(x) + 1 for x in input().split())
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+        grid[A][C] += 1
+        grid[B][C] -= 1
+        grid[A][D] -= 1
+        grid[B][D] += 1
+
+    cnt = 0
+    for y in range(len(grid)):
+        for x in range(len(grid) - 1):
+            grid[x + 1][y] += grid[x][y]
+    for x in range(len(grid)):
+        for y in range(len(grid) - 1):
+            grid[x][y + 1] += grid[x][y]
+            if grid[x][y + 1] != 0:
+                cnt += 1
+
+    print(cnt)
 
 
 if __name__ == "__main__":
