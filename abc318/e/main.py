@@ -1,4 +1,5 @@
 import sys
+from collections import defaultdict
 
 sys.setrecursionlimit(10**6)
 
@@ -12,20 +13,33 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
+    _ = int(input())
     A = list(map(int, input().split()))
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    tail_cnt = defaultdict(int)
+    for a in A:
+        tail_cnt[a] += 1
+    head_cnt = {key: 0 for key in tail_cnt}
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    ans = 0
+    total_comb = 0
+    tail_cnt[A[0]] -= 1
+
+    def count_comb(a: int) -> int:
+        return head_cnt[a] * tail_cnt[a]
+
+    for pre, crr in zip(A, A[1:]):
+        diff = -(count_comb(pre) + count_comb(crr))
+
+        head_cnt[pre] += 1
+        tail_cnt[crr] -= 1
+        diff += count_comb(pre) + count_comb(crr)
+        if pre == crr:
+            diff //= 2
+        total_comb += diff
+
+        ans += total_comb - (count_comb(crr))
+    print(ans)
 
 
 if __name__ == "__main__":
