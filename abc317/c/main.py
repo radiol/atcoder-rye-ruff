@@ -1,4 +1,5 @@
 import sys
+from itertools import permutations
 
 sys.setrecursionlimit(10**6)
 
@@ -12,20 +13,23 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
     N, M = map(int, input().split())
-    A = list(map(int, input().split()))
 
+    d = [[0] * N for _ in range(N)]
     # M行dataの読み込み
     for _ in range(M):
-        u, v = map(int, input().split())
+        u, v, c = map(int, input().split())
+        d[u - 1][v - 1] = d[v - 1][u - 1] = c
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    ans = 0
+    for p in permutations(range(N)):
+        temp_dist = 0
+        for crr, nxt in zip(p, p[1:]):
+            if d[crr][nxt] == 0:
+                break
+            temp_dist += d[crr][nxt]
+            ans = max(ans, temp_dist)
+    print(ans)
 
 
 if __name__ == "__main__":
