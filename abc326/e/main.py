@@ -19,17 +19,13 @@ def main():
 
     inv = pow(N, mod - 2, mod)
 
-    P = [0] * N
-    P[0] = inv
-    for i in range(N - 1):
-        P[i + 1] = P[i] + P[i] * inv
-        P[i + 1] %= mod
-    debug(P)
-
     ans = 0
-    for a, p in zip(A, P):
+    p = inv
+    for a in A:
         ans += a * p
         ans %= mod
+        p += p * inv
+        p %= mod
     print(ans)
 
 
