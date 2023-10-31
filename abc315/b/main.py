@@ -14,20 +14,16 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    _ = int(input())
+    D = list(map(int, input().split()))
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
-
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    center = (sum(D) + 1) // 2
+    for m, d in enumerate(D, start=1):
+        if d < center:
+            center -= d
+            continue
+        print(m, center)
+        exit()
 
 
 if __name__ == "__main__":
