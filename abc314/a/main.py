@@ -14,21 +14,8 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
-
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
-
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
-
+    pi = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679"
+    print(pi[:int(input())+2])
 
 if __name__ == "__main__":
     main()

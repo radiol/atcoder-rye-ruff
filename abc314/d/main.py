@@ -14,20 +14,35 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    _ = int(input())
+    S = list(input().strip())
+    Q = int(input())
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    big_flag = False
+    small_flag = False
+    default_index = set()
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    for _ in range(Q):
+        t, x, c = input().strip().split()
+        t = int(t)
+        x = int(x) - 1
+        match t:
+            case 1:
+                S[x] = c
+                default_index.add(x)
+            case 2:
+                small_flag = True
+                big_flag = False
+                default_index.clear()
+            case 3:
+                big_flag = True
+                small_flag = False
+                default_index.clear()
+    if small_flag:
+        S = [c if i in default_index else c.lower() for i, c in enumerate(S)]
+    if big_flag:
+        S = [c if i in default_index else c.upper() for i, c in enumerate(S)]
+    print("".join(S))
 
 
 if __name__ == "__main__":

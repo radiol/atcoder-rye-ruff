@@ -15,19 +15,27 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
-
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
-
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    C = []
+    A = [set()]
+    for i in range(1, N + 1):
+        c = int(input())
+        C.append((c, i))
+        A.append(set(map(int, input().split())))
+    X = int(input())
+    C = [(c, i) for c, i in C if X in A[i]]
+    if len(C) == 0:
+        print(0)
+        print()
+        exit()
+    C.sort()
+    c_first = C[0][0]
+    ans = []
+    for c, i in C:
+        if c != c_first:
+            break
+        ans.append(i)
+    print(len(ans))
+    print(*ans)
 
 
 if __name__ == "__main__":
