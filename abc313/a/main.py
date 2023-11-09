@@ -14,20 +14,10 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
-
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
-
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    _ = int(input())
+    P = list(map(int, input().split()))
+    max_P = max(P)
+    print(max_P - P[0] + 1 if max_P != P[0] or P.count(max_P) != 1 else 0)
 
 
 if __name__ == "__main__":

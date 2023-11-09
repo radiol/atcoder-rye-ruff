@@ -14,20 +14,32 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    N, K = map(int, input().split())
+    X = list(map(str, range(1, N + 1)))
+    ans = [0] * (N + 1)
+    q_cnt = 0
+    for i in range(K - 1, N):
+        ans[i + 1] = ask(X[: K - 1] + [X[i]])
+        q_cnt += 1
+    for i in range(K - 1):
+        res = ask(X[:i] + X[i + 1 : K + 1])
+        q_cnt += 1
+        if res == ans[K + 1]:
+            ans[i + 1] = ans[K]
+        else:
+            ans[i + 1] = 1 - ans[K]
+    debug(ans)
+    debug(q_cnt)
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    if sum(ans[1 : K + 1]) % 2 != ans[K]:
+        ans = [1 - x for x in ans]
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    print(f"! {' '.join(map(str, ans[1:]))}", flush=True)
+
+
+def ask(x: list[str]) -> int:
+    print(f"? {' '.join(x)}", flush=True)
+    return int(input())
 
 
 if __name__ == "__main__":

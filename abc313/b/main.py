@@ -14,20 +14,17 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
     N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    informations = [list(map(int, input().split())) for _ in range(M)]
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
-
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    saikyo = set()
+    for i in range(1, N + 1):
+        for info in informations:
+            if i == info[1]:
+                break
+        else:
+            saikyo.add(i)
+    print(*saikyo if len(saikyo) == 1 else [-1])
 
 
 if __name__ == "__main__":
