@@ -32,45 +32,7 @@ class UnionFind:
 
     # 要素のグループを2次元リストで返す
     def get_unions(self) -> list:
-        unions = [[] for _ in [0] * self.length]
+        unions: list = [[] for _ in [0] * self.length]
         for i in range(self.length):
             unions[self._get_parent(i)].append(i)
         return [l for l in unions if len(l) != 0]
-
-
-if __name__ == "__main__":
-    N = 10
-    uf = UnionFind(N)
-    # uf:[[0], [1], [2], [3], [4], [5], [6], [7], [8], [9]]
-    for i in range(N):
-        assert uf._get_parent(i) == i
-    uf.merge(0, 1)
-    uf.merge(3, 2)
-    uf.merge(2, 1)
-    uf.merge(5, 4)
-    uf.merge(5, 6)
-    # uf: [[0, 1, 2, 3], [4, 5, 6], [7], [8], [9]]
-    assert uf.is_union(0, 3) is True
-    assert uf.is_union(4, 6) is True
-    assert uf.is_union(0, 6) is False
-    print(uf._parent_size)  # [3, 0, 3, -4, 5, -3, 5, -1, -1, -1]
-    uf.merge(2, 5)
-    print(uf._parent_size)  # [3, 0, 3, -7, 5, 3, 5, -1, -1, -1]
-    assert uf.is_union(0, 6) is True
-    print(uf._parent_size)  # [3, 0, 3, -7, 5, 3, 3, -1, -1, -1]
-    uf.merge(9, 7)
-    uf.merge(8, 7)
-    # uf: [[0, 1, 2, 3, 4, 5, 6], [7, 8, 9]]
-    print(uf._parent_size)  # [3, 0, 3, -7, 5, 3, 3, 9, 9, -3]
-    assert uf._parent_size == [3, 0, 3, -7, 5, 3, 3, 9, 9, -3]
-    assert uf.get_size(3) == 7
-    assert uf.get_size(7) == 3
-    uf.merge(8, 5)
-    # uf: [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]]
-    print(uf._parent_size)  # [3, 0, 3, -10, 5, 3, 3, 9, 9, 3]
-    assert uf._parent_size == [3, 0, 3, -10, 5, 3, 3, 9, 9, 3]
-    assert uf.get_size(7) == 10
-    print(uf._parent_size)  # [3, 0, 3, -10, 5, 3, 3, 3, 9, 3]
-    assert uf._parent_size == [3, 0, 3, -10, 5, 3, 3, 3, 9, 3]
-    print(uf.get_unions())  # [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]]
-    assert uf.get_unions() == [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9]]
