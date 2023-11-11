@@ -41,7 +41,7 @@ class WeightedUnionFind:
         parent_b, _ = self._get_parent(b)
         return parent_a == parent_b
 
-    # 要素aとbの重みの差を返す. aとbが同じ木に属していない場合はinfを返す
+    # 要素aとbの重みの差(b-a)を返す. aとbが同じ木に属していない場合はinfを返す
     def diff(self, a: int, b: int) -> int | float:
         parent_a, weight_a = self._get_parent(a)
         parent_b, weight_b = self._get_parent(b)
