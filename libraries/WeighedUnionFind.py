@@ -19,12 +19,12 @@ class WeightedUnionFind:
         self._weight_from_parent[a] += weight
         return self._parent_size[a], self._weight_from_parent[a]
 
-    # 要素aとbを合併する
-    def merge(self, a: int, b: int, d: int) -> None:
+    # 要素aとbを合併する. 既に同じ木に属し、かつ重みが矛盾している場合はFalseを返す
+    def merge(self, a: int, b: int, d: int) -> bool:
         x, wx = self._get_parent(a)
         y, wy = self._get_parent(b)
         if x == y:
-            return
+            return d == wy - wx
         if self._parent_size[x] > self._parent_size[y]:
             x, y = y, x
             wx, wy = wy, wx
@@ -33,6 +33,7 @@ class WeightedUnionFind:
         self._parent_size[x] += self._parent_size[y]
         self._parent_size[y] = x
         self._weight_from_parent[y] = wx - wy + d
+        return True
 
     # 要素aとbが同じ木に属するかどうかを返す
     def is_union(self, a: int, b: int) -> bool:
