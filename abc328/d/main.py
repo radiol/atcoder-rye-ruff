@@ -18,8 +18,6 @@ def main():
     ans = []
     for c in S:
         ans.append(c)
-        if len(ans) < 3:
-            continue
         if ans[-3:] == ["A", "B", "C"]:
             for _ in range(3):
                 ans.pop()
