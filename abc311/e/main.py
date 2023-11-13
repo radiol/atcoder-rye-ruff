@@ -14,20 +14,30 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    H, W, N = map(int, input().split())
+    grid = (
+        [[False] * (W + 2)]
+        + [[False] + [True] * W + [False] for _ in range(H)]
+        + [[False] * (W + 2)]
+    )
+    for _ in range(N):
+        a, b = map(int, input().split())
+        grid[a][b] = False
+    dp = [[0] * (W + 1) for _ in range(H + 1)]
+    for i in range(1, H + 1):
+        if grid[i][1]:
+            dp[i][1] = 1
+    for j in range(1, W + 1):
+        if grid[1][j]:
+            dp[1][j] = 1
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    for i in range(2, H + 1):
+        for j in range(2, W + 1):
+            if not grid[i][j]:
+                continue
+            dp[i][j] = min(dp[i - 1][j], dp[i][j - 1], dp[i - 1][j - 1]) + 1
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    print(sum(sum(x) for x in dp))
 
 
 if __name__ == "__main__":

@@ -14,20 +14,22 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    _ = int(input())
+    A = [int(x) - 1 for x in input().split()]
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    ans = []
+    crr = 0
+    visited = set()
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    while True:
+        if crr in visited:
+            break
+        visited.add(crr)
+        ans.append(crr)
+        crr = A[crr]
+    ans = ans[ans.index(crr) :]
+    print(len(ans))
+    print(*[x + 1 for x in ans])
 
 
 if __name__ == "__main__":
