@@ -14,20 +14,27 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = map(int, input().split())
-    A = list(map(int, input().split()))
+    S = list(input().strip())
+    MOD = 998244353
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = map(int, input().split())
+    # dp[i][j]: i文字目まで見たとき、"("の数-")"の数=j個のときの組み合わせ数
+    dp = [[0] * (len(S) + 1) for _ in range(len(S) + 1)]
+    dp[0][0] = 1
 
-    H, W = map(int, input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [list(map(int, input().split())) for _ in range(H)]
+    for i in range(len(S)):
+        for j in range(len(S)):
+            match S[i]:
+                case "?":
+                    dp[i + 1][j + 1] += dp[i][j]
+                    dp[i + 1][j - 1] += dp[i][j]
+                case "(":
+                    dp[i + 1][j + 1] += dp[i][j]
+                case ")":
+                    dp[i + 1][j - 1] += dp[i][j]
+            dp[i + 1][j + 1] %= MOD
+            dp[i + 1][j - 1] %= MOD
+
+    print(dp[len(S)][0])
 
 
 if __name__ == "__main__":
