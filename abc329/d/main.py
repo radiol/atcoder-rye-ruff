@@ -11,16 +11,9 @@ MOD = 998244353
 # セグメントツリー
 # 演算
 def segfunc(x, y):
-    if x[1] > y[1]:
+    if x[1] > y[1] or (x[1] == y[1] and x[0] < y[0]):
         return x
-    if x[1] < y[1]:
-        return y
-    if x[1] == y[1]:
-        if x[0] < y[0]:
-            return x
-        else:
-            return y
-    return None
+    return y
 
 
 class SegTree:
