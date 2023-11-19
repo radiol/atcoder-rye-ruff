@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+from copy import deepcopy
 
 sys.setrecursionlimit(10**6)
 
@@ -16,19 +17,17 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
+    grid = [list(input().strip()) for _ in range(N)]
 
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    ans = deepcopy(grid)
+    ans[0] = deepcopy(grid[1][0:1] + grid[0][:-1])
+    ans[-1] = deepcopy(grid[-1][1:] + grid[-2][-1:])
+    for i in range(1, N - 1):
+        ans[i][0] = grid[i + 1][0]
+        ans[i][-1] = grid[i - 1][-1]
+    for row in ans:
+        print("".join(row))
 
 
 if __name__ == "__main__":

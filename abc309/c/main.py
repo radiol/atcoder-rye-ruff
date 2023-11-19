@@ -15,20 +15,24 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
+    N, K = (int(x) for x in input().split())
 
+    events = []
+    total = 0
     # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
+    for _ in range(N):
+        a, b = (int(x) for x in input().split())
+        events.append((a + 1, b))
+        total += b
+    events.sort()
 
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    day = 1
+    for d, c in events:
+        if total <= K:
+            break
+        day = d
+        total -= c
+    print(day)
 
 
 if __name__ == "__main__":

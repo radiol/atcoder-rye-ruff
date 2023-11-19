@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+from collections import deque
 
 sys.setrecursionlimit(10**6)
 
@@ -15,20 +16,38 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
+    N1, N2, M = (int(x) for x in input().split())
 
+    edge = [[] for _ in range(N1 + N2)]
     # M行dataの読み込み
     for _ in range(M):
-        u, v = (int(x) for x in input().split())
+        u, v = (int(x) - 1 for x in input().split())
+        edge[u].append(v)
+        edge[v].append(u)
 
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    dist = [0] * (N1 + N2)
+    visited = {0}
+    que = deque([0])
+    while que:
+        crr = que.popleft()
+        for nxt in edge[crr]:
+            if nxt in visited:
+                continue
+            dist[nxt] = dist[crr] + 1
+            que.append(nxt)
+            visited.add(nxt)
+
+    que.append(N1 + N2 - 1)
+    visited.add(N1 + N2 - 1)
+    while que:
+        crr = que.popleft()
+        for nxt in edge[crr]:
+            if nxt in visited:
+                continue
+            dist[nxt] = dist[crr] + 1
+            que.append(nxt)
+            visited.add(nxt)
+    print(max(dist[:N1]) + max(dist[N1:]) + 1)
 
 
 if __name__ == "__main__":
