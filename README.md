@@ -58,8 +58,7 @@ cp -r atcoder-cli-templates/py `acc config-dir`
 ### Edit acc-config
 
 ```bash
-cd `acc config-dir`
-nvim config.json
+nvim `acc config-dir`/config.json
 -> default-template:"py"
 ```
 
