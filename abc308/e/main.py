@@ -16,19 +16,36 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = (int(x) for x in input().split())
     A = [int(x) for x in input().split()]
+    S = input().strip()
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
+    M = [[0] * (1 << 3) for _ in range(N + 1)]
+    E = [[0] * (1 << 3) for _ in range(N + 1)]
+    X = [[0] * (1 << 3) for _ in range(N + 1)]
 
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    for i, c in enumerate(S):
+        for j in range(1 << 3):
+            M[i + 1][j] += M[i][j]
+            E[i + 1][j] += E[i][j]
+            X[i + 1][j] += X[i][j]
+
+        match c:
+            case "M":
+                M[i + 1][1 << A[i]] += 1
+            case "E":
+                for j in range(1 << 3):
+                    E[i + 1][(1 << A[i]) | j] += M[i][j]
+            case "X":
+                for j in range(1 << 3):
+                    X[i + 1][(1 << A[i]) | j] += E[i][j]
+
+    ans = 0
+    for j, x in enumerate(X[N]):
+        for k in range(4):
+            if (j >> k) & 1 == 0:
+                ans += x * k
+                break
+    print(ans)
 
 
 if __name__ == "__main__":
