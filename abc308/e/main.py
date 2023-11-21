@@ -15,32 +15,27 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
+    _ = int(input())
     A = [int(x) for x in input().split()]
     S = input().strip()
 
-    M = [[0] * (1 << 3) for _ in range(N + 1)]
-    E = [[0] * (1 << 3) for _ in range(N + 1)]
-    X = [[0] * (1 << 3) for _ in range(N + 1)]
+    M = [0] * (1 << 3)
+    E = [0] * (1 << 3)
+    X = [0] * (1 << 3)
 
-    for i, c in enumerate(S):
-        for j in range(1 << 3):
-            M[i + 1][j] += M[i][j]
-            E[i + 1][j] += E[i][j]
-            X[i + 1][j] += X[i][j]
-
+    for a, c in zip(A, S):
         match c:
             case "M":
-                M[i + 1][1 << A[i]] += 1
+                M[1 << a] += 1
             case "E":
                 for j in range(1 << 3):
-                    E[i + 1][(1 << A[i]) | j] += M[i][j]
+                    E[(1 << a) | j] += M[j]
             case "X":
                 for j in range(1 << 3):
-                    X[i + 1][(1 << A[i]) | j] += E[i][j]
+                    X[(1 << a) | j] += E[j]
 
     ans = 0
-    for j, x in enumerate(X[N]):
+    for j, x in enumerate(X):
         for k in range(4):
             if (j >> k) & 1 == 0:
                 ans += x * k
