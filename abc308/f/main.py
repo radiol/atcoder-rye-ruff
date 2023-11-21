@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+from heapq import heappop, heappush
 
 sys.setrecursionlimit(10**6)
 
@@ -15,20 +16,24 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
     N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
+    P = [int(x) for x in input().split()]
+    L = [int(x) for x in input().split()]
+    D = [int(x) for x in input().split()]
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
+    P.sort()
+    L_D = [(L[i], D[i]) for i in range(M)]
+    L_D.sort()
 
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    que = []
+    discount = 0
+    for p in P:
+        while L_D and L_D[0][0] <= p:
+            _, d = L_D.pop(0)
+            heappush(que, -d)
+        if que:
+            discount += heappop(que)
+    print(sum(P) + discount)
 
 
 if __name__ == "__main__":
