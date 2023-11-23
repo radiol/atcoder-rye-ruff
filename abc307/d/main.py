@@ -16,19 +16,28 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
+    S = input().rstrip()
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
+    del_idx = []
+    forward = []
+    for i, c in enumerate(S):
+        if c == "(":
+            forward.append(i)
+        if c == ")" and forward:
+            f = forward.pop()
+            del_idx.append((f, i))
+    del_cnt = [0] * (N + 1)
+    for f, t in del_idx:
+        del_cnt[f] += 1
+        del_cnt[t + 1] -= 1
 
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    cnt = 0
+    ans = []
+    for i in range(N):
+        cnt += del_cnt[i]
+        if cnt == 0:
+            ans.append(S[i])
+    print("".join(ans))
 
 
 if __name__ == "__main__":
