@@ -16,20 +16,20 @@ def debug(*args, sep=None):
 
 
 def main():
-    N, M = (int(x) for x in input().split())
+    _, _ = (int(x) for x in input().split())
     P = [int(x) for x in input().split()]
     L = [int(x) for x in input().split()]
     D = [int(x) for x in input().split()]
 
     P.sort()
-    L_D = [(L[i], D[i]) for i in range(M)]
-    L_D.sort()
+    L_D = list(zip(L, D))
+    L_D.sort(reverse=True)
 
     que = []
     discount = 0
     for p in P:
-        while L_D and L_D[0][0] <= p:
-            _, d = L_D.pop(0)
+        while L_D and L_D[-1][0] <= p:
+            _, d = L_D.pop()
             heappush(que, -d)
         if que:
             discount += heappop(que)
