@@ -37,6 +37,7 @@ dev-dependencies = [
 select = ["ALL"]
 ignore = [
     "A001",
+    "A003",    # 組み込み関数と同じ関数名を許可　
     "D",       # docstring系は全て無視
     "E741",    # lを変数として使えるように
     "N806",
