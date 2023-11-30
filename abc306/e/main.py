@@ -162,7 +162,7 @@ def main():
     A = [0] * N
 
     B = SortedMultiset([0] * K)
-    C = SortedMultiset([0] * (N - K))
+    C = SortedMultiset([0] * (N - K + 1))
     ans = 0
     for _ in range(Q):
         x, y = map(int, input().split())
