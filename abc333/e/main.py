@@ -16,19 +16,34 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
-
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
-
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    events = [tuple(map(int, input().split())) for _ in range(N)]
+    actions = []
+    monster = [0] * (N + 1)
+    for t, x in reversed(events):
+        if t == 1:
+            if monster[x] > 0:
+                actions.append(1)
+                monster[x] -= 1
+            else:
+                actions.append(0)
+        else:
+            monster[x] += 1
+    if sum(monster) > 0:
+        print(-1)
+        return
+    ans = 0
+    portion = 0
+    res = []
+    for t, _ in events:
+        if t == 1:
+            res.append(actions.pop())
+            if res[-1]:
+                portion += 1
+                ans = max(ans, portion)
+        else:
+            portion -= 1
+    print(ans)
+    print(*res)
 
 
 if __name__ == "__main__":
