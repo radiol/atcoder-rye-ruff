@@ -15,20 +15,23 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
-
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
-
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    S = input().strip()
+    T = input().strip()
+    nodes = "ABCDE"
+    group_A = set()
+    group_B = set()
+    for i in range(5):
+        group_A.add(nodes[i] + nodes[(i + 1) % 5])
+        group_A.add(nodes[i] + nodes[(i - 1) % 5])
+        group_B.add(nodes[i] + nodes[(i + 2) % 5])
+        group_B.add(nodes[i] + nodes[(i - 2) % 5])
+    if S in group_A and T in group_A:
+        print("Yes")
+        return
+    if S in group_B and T in group_B:
+        print("Yes")
+        return
+    print("No")
 
 
 if __name__ == "__main__":
