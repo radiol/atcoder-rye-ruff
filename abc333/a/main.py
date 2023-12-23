@@ -16,7 +16,8 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    print(str(N)*N)
+    print(str(N) * N)
+
 
 if __name__ == "__main__":
     main()
