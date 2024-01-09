@@ -15,21 +15,24 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
-
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
-
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
-
+    n, q = map(int, input().split())
+    pos:list[tuple[int, int]] = [(n-i, 0) for i in range(n)]
+    for _ in range(q):
+        t, c = input().split()
+        if t == "1":
+            x, y = pos[-1]
+            match c:
+                case "L":
+                    pos.append((x-1, y))
+                case "R":
+                    pos.append((x+1, y))
+                case "U":
+                    pos.append((x, y+1))
+                case "D":
+                    pos.append((x, y-1))
+        else:
+            p = int(c)
+            print(*pos[-p])
 
 if __name__ == "__main__":
     main()

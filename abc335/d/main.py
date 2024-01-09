@@ -16,19 +16,27 @@ def debug(*args, sep=None):
 
 def main():
     N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
+    grid = [[""] * N for _ in range(N)]
+    x, y = 0, 0
+    dx, dy = 1, 0
+    for i in range(1, N * N):
+        grid[y][x] = str(i)
+        while (
+            x + dx < 0
+            or x + dx >= N
+            or y + dy < 0
+            or y + dy >= N
+            or grid[y + dy][x + dx] != ""
+        ):
+            dx, dy = rotate(dx, dy)
+        x += dx
+        y += dy
+    grid[N // 2][N // 2] = "T"
+    print("\n".join(" ".join(row) for row in grid))
 
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
 
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+def rotate(x, y):
+    return y, -x
 
 
 if __name__ == "__main__":
