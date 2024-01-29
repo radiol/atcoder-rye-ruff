@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import sys
+from collections import Counter
 
 sys.setrecursionlimit(10**6)
 
@@ -15,20 +16,8 @@ def debug(*args, sep=None):
 
 
 def main():
-    N = int(input())
-    N, M = (int(x) for x in input().split())
-    A = [int(x) for x in input().split()]
-
-    # M行dataの読み込み
-    for _ in range(M):
-        u, v = (int(x) for x in input().split())
-
-    H, W = (int(x) for x in input().split())
-    # x行y列のデータ(x:0~H-1, y:0~W-1)の取得はgrid[x][y]
-    # '.'や'#'で表現される文字列のデータの場合
-    grid = [list(input().strip()) for _ in range(H)]
-    # 数値データの場合
-    grid = [[int(x) for x in input().split()] for _ in range(H)]
+    count = Counter(input().rstrip())
+    print(sorted(count.items(), key=lambda x: (-x[1], x[0]))[0][0])
 
 
 if __name__ == "__main__":
