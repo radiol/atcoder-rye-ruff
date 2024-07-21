@@ -37,7 +37,7 @@ acc login
 Activate virtual environment
 
 ```bash
-rye shell
+sourve .venv/bin/activate
 ```
 
 Login
